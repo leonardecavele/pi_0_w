@@ -6,16 +6,18 @@ OUT = boot
 INCLUDES = includes
 
 # flags
-CC = aarch64-none-elf-gcc
-LD = aarch64-none-elf-ld
-OBJCOPY = aarch64-none-elf-objcopy
+CC = arm-none-eabi-gcc
+LD = arm-none-eabi-ld
+OBJCOPY = arm-none-eabi-objcopy
 
+CPU_FLAGS = -mcpu=arm1176jzf-s -marm
 C_FLAGS = -I $(INCLUDES) \
+		  $(CPU_FLAGS) \
 		  -ffreestanding -nostdlib -nostartfiles \
 		  -fno-omit-frame-pointer -fno-unwind-tables \
 		  -fno-asynchronous-unwind-tables -fno-builtin-memset \
-		  -fno-builtin-memcpy -mgeneral-regs-only
-S_FLAGS = -march=armv8-a
+		  -fno-builtin-memcpy
+S_FLAGS = $(CPU_FLAGS)
 LD_FLAGS = -z max-page-size=4096 -Map $(MAP)
 
 # files

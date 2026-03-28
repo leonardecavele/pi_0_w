@@ -2,5 +2,5 @@ kernel_address=0x8000
 kernel=kernel.img
 init_uart_clock=3000000
 init_uart_baud=115200
-enable_uart=1
-uart_2ndstage=1
+# boot logs
+uart_2ndstage=0

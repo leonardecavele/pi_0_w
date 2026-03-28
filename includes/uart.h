@@ -70,5 +70,6 @@ void uart_putstr(uintptr_t t, const char *s);
 void uart_putnbr(uintptr_t t, int32_t n, const char *base, uint32_t len);
 void uart_putunbr(uintptr_t t, uint32_t n, const char *base, uint32_t len);
 void uart_printf(uintptr_t t, const char *s, ...);
+char uart_getc(uintptr_t t);
 
 #endif

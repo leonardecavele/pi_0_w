@@ -101,3 +101,9 @@ extern void uart_printf(uintptr_t t, const char *s, ...)
 	} while (*s++);
 	va_end(pm);
 }
+
+extern char uart_getc(uintptr_t t)
+{
+	while (UART_GET_BIT(t, FR_OFFSET, FR_RXFE)) { }
+	return ((char)(REG4B(t + DR_OFFSET) & 0xffu));
+}

@@ -28,7 +28,8 @@ C_SRCS = \
 		 kmain.c \
 		 uart.c \
 		 gpio.c \
-		 standard.c
+		 standard.c \
+		 command.c
 
 LD_SCRIPT = kernel.ld
 IMG = $(OUT)/$(NAME).img

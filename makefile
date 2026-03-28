@@ -18,7 +18,7 @@ C_FLAGS = -I $(INCLUDES) \
 		  -fno-asynchronous-unwind-tables -fno-builtin-memset \
 		  -fno-builtin-memcpy
 S_FLAGS = $(CPU_FLAGS)
-LD_FLAGS = -z max-page-size=4096 -Map $(MAP)
+LD_FLAGS = -Wl,-z,max-page-size=4096 -Wl,-Map,$(MAP)
 
 # files
 S_SRCS = \
@@ -27,6 +27,7 @@ S_SRCS = \
 C_SRCS = \
 		 kmain.c \
 		 uart.c \
+		 gpio.c \
 		 standard.c
 
 LD_SCRIPT = kernel.ld
@@ -42,7 +43,7 @@ C_OBJS = $(C_SRCS:%.c=$(BUILD)/%.o)
 all: $(IMG)
 
 $(IMG): $(C_OBJS) $(S_OBJS) $(LD_SCRIPT)
-	$(LD) -T $(LD_SCRIPT) -o $(ELF) $(S_OBJS) $(C_OBJS) $(LD_FLAGS)
+	$(CC) -T $(LD_SCRIPT) -o $(ELF) $(S_OBJS) $(C_OBJS) $(CPU_FLAGS) -nostdlib -lgcc $(LD_FLAGS)
 	$(OBJCOPY) $(ELF) -O binary $(IMG)
 	dd if=$(IMG) of=$(TMP) bs=512 conv=sync && mv $(TMP) $(IMG)
 

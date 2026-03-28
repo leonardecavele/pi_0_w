@@ -53,14 +53,14 @@ extern void uart_putstr(uintptr_t t, const char *s)
 		uart_putc(t, c);
 }
 
-extern void uart_putnbr(uintptr_t t, int64_t n, const char *b, uint64_t l)
+extern void uart_putnbr(uintptr_t t, int32_t n, const char *b, uint32_t l)
 {
 	if (n < 0) { uart_putc(t, '-'); n = -n; }
-	if (n >= (int64_t)l) { uart_putnbr(t, n / (int64_t)l, b, l); }
-	uart_putc(t, (b[n % (int64_t)l]));
+	if (n >= (int32_t)l) { uart_putnbr(t, n / (int32_t)l, b, l); }
+	uart_putc(t, (b[n % (int32_t)l]));
 }
 
-extern void uart_putunbr(uintptr_t t, uint64_t n, const char *b, uint64_t l)
+extern void uart_putunbr(uintptr_t t, uint32_t n, const char *b, uint32_t l)
 {
 	if (n >= l) { uart_putunbr(t, n / l, b, l); }
 	uart_putc(t, (b[n % l]));

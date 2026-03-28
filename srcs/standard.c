@@ -1,6 +1,6 @@
 #include "standard.h"
 
-extern uint64_t strlen(const uint8_t *s)
+extern uint32_t strlen(const uint8_t *s)
 {
 	int	i = 0;
 
@@ -15,14 +15,14 @@ extern int strcmp(const uint8_t *s1, const uint8_t *s2)
 	return *s1 - *s2;
 }
 
-extern int strncmp(const uint8_t *s1, const uint8_t *s2, uint64_t len)
+extern int strncmp(const uint8_t *s1, const uint8_t *s2, uint32_t len)
 {
 	while (len && *s1 && *s1 == *s2) { s1++; s2++; len--; }
 	if (len == 0) return 0;
 	return *s1 - *s2;
 }
 
-void *memset(void *s, int c, uint64_t n)
+void *memset(void *s, int c, uint32_t n)
 {
 	uint8_t *p = (uint8_t *)s;
 	while (n--)

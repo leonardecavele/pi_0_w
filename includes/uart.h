@@ -67,8 +67,8 @@ typedef enum e_uart_mask {
 void uart_init(uintptr_t t, uint32_t clk, uint32_t baud);
 void uart_putc(uintptr_t t, char c);
 void uart_putstr(uintptr_t t, const char *s);
-void uart_putnbr(uintptr_t t, int64_t n, const char *base, uint64_t len);
-void uart_putunbr(uintptr_t t, uint64_t n, const char *base, uint64_t len);
+void uart_putnbr(uintptr_t t, int32_t n, const char *base, uint32_t len);
+void uart_putunbr(uintptr_t t, uint32_t n, const char *base, uint32_t len);
 void uart_printf(uintptr_t t, const char *s, ...);
 
 #endif

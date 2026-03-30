@@ -7,6 +7,7 @@ static volatile bool g_int23_button = false;
 
 void handle_irq(void)
 {
+	uart_printf(BCM2835_UART0, "IRQ entered\r\n");
 	if (gpio_event_pending(23u))
 	{
 		gpio_event_clear(23u);

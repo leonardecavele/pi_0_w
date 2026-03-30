@@ -22,28 +22,27 @@ _start:
 	/* disable interrupts */
 	cpsid if
 
-	/* CPU to IRQ mode */
+	/* install vector table FIRST */
+	ldr r0, =vectors
+	mcr p15, 0, r0, c12, c0, 0
+
+	/* switch to IRQ mode */
 	mrs r0, cpsr
 	bic r0, r0, #0x1f
 	orr r0, r0, #0x12
 	msr cpsr_c, r0
 
-	/* set-up IRQ stack */
+	/* set IRQ stack */
 	ldr sp, =__irq_stack_top
 
-	/* give CPU interrupts table */
-	ldr r0, =vectors
-	mcr p15, 0, r0, c12, c0, 0
-
-	/* CPU to normal mode */
+	/* switch to SVC mode */
 	mrs r0, cpsr
 	bic r0, r0, #0x1f
 	orr r0, r0, #0x13
 	msr cpsr_c, r0
 
-	/* set-up stack */
-	ldr r0, =__stack_top
-	mov sp, r0
+	/* set normal stack */
+	ldr sp, =__stack_top
 
 	ldr r0, =__bss_start
 	ldr r1, =__bss_end

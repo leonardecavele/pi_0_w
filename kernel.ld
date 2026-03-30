@@ -30,4 +30,12 @@ SECTIONS
 	  . = . + 0x10000;
 	  __stack_top = .;
 	}
+
+	.irq_stack (NOLOAD) : ALIGN(16) {
+	  __irq_stack_bottom = .;
+	  /* 4 KiB */
+	  . = . + 0x1000;
+	  
+	  __irq_stack_top = .;
+	}
 }

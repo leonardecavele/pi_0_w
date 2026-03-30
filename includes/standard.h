@@ -7,6 +7,9 @@
 
 typedef unsigned int uint_t;
 
+/* ASM */
+void sleep(void);
+/* C */
 uint32_t strlen(const uint8_t *s);
 int strcmp(const uint8_t *s1, const uint8_t *s2);
 int strncmp(const uint8_t *s1, const uint8_t *s2, uint32_t len);

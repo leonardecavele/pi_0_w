@@ -1,11 +1,47 @@
 .section .text
 .global _start
 
+.align 5
+vectors:
+	b _start      // reset
+	b .           // undefined instruction
+	b .           // swi / svc
+	b .           // prefetch abort
+	b .           // data abort
+	b .           // reserved
+	ldr pc, =irq  // irq
+	b .           // fiq
+
+irq:
+    stmfd sp!, {r0-r3, r12, lr}
+    bl handle_irq
+    ldmfd sp!, {r0-r3, r12, lr}
+    subs pc, lr, #4
+
 _start:
 	/* disable interrupts */
 	cpsid if
 
-	/* temporary stack */
+	/* CPU to IRQ mode */
+	mrs r0, cpsr
+	bic r0, r0, #0x1f
+	orr r0, r0, #0x12
+	msr cpsr_c, r0
+
+	/* set-up IRQ stack */
+	ldr sp, =__irq_stack_top
+
+	/* give CPU interrupts table */
+	ldr r0, =vectors
+	mcr p15, 0, r0, c12, c0, 0
+
+	/* CPU to normal mode */
+	mrs r0, cpsr
+	bic r0, r0, #0x1f
+	orr r0, r0, #0x13
+	msr cpsr_c, r0
+
+	/* set-up stack */
 	ldr r0, =__stack_top
 	mov sp, r0
 
@@ -21,6 +57,9 @@ bss_loop:
 	b bss_loop
 
 bss_done:
+	/* enable interrupts */
+	cpsie i
+
 	/* branch to kernel main */
 	bl kmain
 

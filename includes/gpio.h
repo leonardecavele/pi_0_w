@@ -108,10 +108,18 @@ typedef enum e_gpio_mask {
 	PUD_MASK = 0x00000003u
 } t_gpio_mask;
 
-
+/* set-up */
 void gpio_set_func(uint32_t gpio, t_gpio_funcsel func);
+void gpio_set_pull(uint32_t gpio, t_gpio_pull pull);
+/* interract */
 void gpio_write(uint32_t gpio, bool value);
 bool gpio_read(uint32_t gpio);
-void gpio_set_pull(uint32_t gpio, t_gpio_pull pull);
+/* interrupts */
+void gpio_enable_falling(uint32_t gpio);
+void gpio_disable_falling(uint32_t gpio);
+void gpio_enable_rising(uint32_t gpio);
+void gpio_disable_rising(uint32_t gpio);
+bool gpio_event_pending(uint32_t gpio);
+void gpio_event_clear(uint32_t gpio);
 
 #endif

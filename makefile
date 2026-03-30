@@ -22,7 +22,8 @@ LD_FLAGS = -Wl,-z,max-page-size=4096 -Wl,-Map,$(MAP)
 
 # files
 S_SRCS = \
-		 boot.s
+		 boot.s \
+		 standard.s
 
 C_SRCS = \
 		 kmain.c \
@@ -37,8 +38,8 @@ TMP = $(IMG).tmp
 MAP = $(NAME).map
 ELF = $(BUILD)/$(NAME).elf
 
-S_OBJS = $(S_SRCS:%.s=$(BUILD)/%.o)
-C_OBJS = $(C_SRCS:%.c=$(BUILD)/%.o)
+S_OBJS = $(S_SRCS:%.s=$(BUILD)/s_%.o)
+C_OBJS = $(C_SRCS:%.c=$(BUILD)/c_%.o)
 
 # rules
 all: $(IMG)
@@ -48,11 +49,11 @@ $(IMG): $(C_OBJS) $(S_OBJS) $(LD_SCRIPT)
 	$(OBJCOPY) $(ELF) -O binary $(IMG)
 	dd if=$(IMG) of=$(TMP) bs=512 conv=sync && mv $(TMP) $(IMG)
 
-$(BUILD)/%.o: $(SRCS)/%.s
+$(BUILD)/s_%.o: $(SRCS)/%.s
 	mkdir -p $(BUILD)
 	$(CC) -c $< -o $@ $(S_FLAGS)
 
-$(BUILD)/%.o: $(SRCS)/%.c
+$(BUILD)/c_%.o: $(SRCS)/%.c
 	mkdir -p $(BUILD)
 	$(CC) -c $< -o $@ $(C_FLAGS)
 

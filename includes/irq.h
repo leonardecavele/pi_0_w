@@ -21,9 +21,15 @@ typedef enum e_irq_reg
 	IRQ_DISABLE_BASIC = 0x224u
 } t_irq_reg;
 
-void irq_init_button(void);
-void irq_handler_c(void);
+/* asm */
+void irq_disable(void);
 void irq_enable(void);
-void wait_for_interrupt(void);
+void cpu_use_low_vectors_vbar(void);
+void cpu_set_vbar(uintptr_t addr);
+void cpu_isb(void);
+void cpu_set_mode_irq(void);
+void cpu_set_mode_svc(void);
+void irq_controller_reset(void);
+void irq_controller_enable(uint32_t irq);
 
 #endif

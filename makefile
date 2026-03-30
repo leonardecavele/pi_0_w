@@ -23,7 +23,8 @@ LD_FLAGS = -Wl,-z,max-page-size=4096 -Wl,-Map,$(MAP)
 # files
 S_SRCS = \
 		 boot.s \
-		 standard.s
+		 standard.s \
+		 irq.s
 
 C_SRCS = \
 		 kmain.c \

@@ -1,3 +1,10 @@
+.extern irq_disable
+.extern cpu_use_low_vectors_vbar
+.extern cpu_set_vbar
+.extern cpu_isb
+.extern cpu_set_mode_irq
+.extern cpu_set_mode_svc
+
 .section .text
 .global _start
 
@@ -19,38 +26,22 @@ irq:
     subs pc, lr, #4
 
 _start:
-	/* disable interrupts */
-	cpsid if
+	bl irq_disable
 
-	/* force low vectors so VBAR is used */
-	mrc p15, 0, r0, c1, c0, 0
-	bic r0, r0, #0x2000
-	mcr p15, 0, r0, c1, c0, 0
+	bl cpu_use_low_vectors_vbar
 
-	/* install vector table */
 	ldr r0, =vectors
-	mcr p15, 0, r0, c12, c0, 0
+	bl cpu_set_vbar
 
-	/* instruction synchronization barrier for ARMv6 */
-	mov r0, #0
-	mcr p15, 0, r0, c7, c5, 4
+	bl cpu_isb
 
-	/* switch to IRQ mode */
-	mrs r0, cpsr
-	bic r0, r0, #0x1f
-	orr r0, r0, #0x12
-	msr cpsr_c, r0
-
-	/* set IRQ stack */
+	bl cpu_set_mode_irq
 	ldr sp, =__irq_stack_top
 
-	/* switch to SVC mode */
-	mrs r0, cpsr
-	bic r0, r0, #0x1f
-	orr r0, r0, #0x13
-	msr cpsr_c, r0
+	bl cpu_set_mode_svc
+	ldr sp, =__stack_top
 
-	/* set normal stack */
+	/* set stack */
 	ldr sp, =__stack_top
 
 	ldr r0, =__bss_start

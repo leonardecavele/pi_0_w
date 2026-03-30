@@ -3,14 +3,14 @@
 #include "command.h"
 #include "irq.h"
 
-static bool g_led_state = false;
+static volatile bool g_int23_button = false;
 
 void handle_irq(void)
 {
 	if (gpio_event_pending(23u))
 	{
 		gpio_event_clear(23u);
-		g_led_state = !g_led_state;
+		g_int23_button = true;
 	}
 }
 
@@ -49,11 +49,18 @@ int kmain(uintptr_t dtb)
 	uart_printf(BCM2835_UART0, "hello world\r\n");
 	//wait_cmd(BCM2835_UART0);
 
+	bool led_state = false;
 	/* cpu hang */
 	while (1) {
+		if (g_int23_button)
+		{
+			g_int23_button = false;
+			led_state = !led_state;
+			gpio_write(17u, led_state);
+			gpio_write(27u, led_state);
+			gpio_write(22u, led_state);
+			uart_printf(BCM2835_UART0, "interrupt 23\r\n");
+		}
 		sleep();
-		gpio_write(17u, g_led_state);
-		gpio_write(27u, g_led_state);
-		gpio_write(22u, g_led_state);
 	}
 }

@@ -1,6 +1,7 @@
 #include "gpio.h"
 #include "uart.h"
 #include "command.h"
+#include "irq.h"
 
 static bool g_led_state = false;
 
@@ -10,7 +11,6 @@ void handle_irq(void)
 	{
 		gpio_event_clear(23u);
 		g_led_state = !g_led_state;
-		gpio_write(17u, g_led_state);
 	}
 }
 
@@ -27,6 +27,9 @@ int kmain(uintptr_t dtb)
 	gpio_set_func(17u, GPIO_OUTPUT);
 	gpio_set_func(27u, GPIO_OUTPUT);
 	gpio_set_func(22u, GPIO_OUTPUT);
+
+	/* enable bcm2835 IRQ */
+	REG4B(BCM2835_IRQ + IRQ_ENABLE_2) = IRQ_GPIO_BANK0_BIT;
 
 	/* set-up button GPIO */
 	gpio_set_func(23u, GPIO_INPUT);
@@ -49,5 +52,8 @@ int kmain(uintptr_t dtb)
 	/* cpu hang */
 	while (1) {
 		sleep();
+		gpio_write(17u, g_led_state);
+		gpio_write(27u, g_led_state);
+		gpio_write(22u, g_led_state);
 	}
 }

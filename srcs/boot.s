@@ -35,11 +35,20 @@ _start:
 
 	bl cpu_isb
 
-	bl cpu_set_mode_irq
+	/* switch to IRQ mode */
+	mrs r0, cpsr
+	bic r0, r0, #0x1f
+	orr r0, r0, #0x12
+	msr cpsr_c, r0
+
+	/* set IRQ stack */
 	ldr sp, =__irq_stack_top
 
-	bl cpu_set_mode_svc
-	ldr sp, =__stack_top
+	/* switch to SVC mode */
+	mrs r0, cpsr
+	bic r0, r0, #0x1f
+	orr r0, r0, #0x13
+	msr cpsr_c, r0
 
 	/* set stack */
 	ldr sp, =__stack_top

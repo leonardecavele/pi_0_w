@@ -7,9 +7,6 @@
 .global cpu_set_vbar
 .global cpu_isb
 
-.global cpu_set_mode_irq
-.global cpu_set_mode_svc
-
 .global irq_controller_reset
 .global irq_controller_enable
 
@@ -36,20 +33,6 @@ cpu_set_vbar:
 cpu_isb:
 	mov r0, #0
 	mcr p15, 0, r0, c7, c5, 4
-	bx lr
-
-cpu_set_mode_irq:
-	mrs r0, cpsr
-	bic r0, r0, #0x1f
-	orr r0, r0, #0x12
-	msr cpsr_c, r0
-	bx lr
-
-cpu_set_mode_svc:
-	mrs r0, cpsr
-	bic r0, r0, #0x1f
-	orr r0, r0, #0x13
-	msr cpsr_c, r0
 	bx lr
 
 irq_controller_reset:

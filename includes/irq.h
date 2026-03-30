@@ -27,8 +27,6 @@ void irq_enable(void);
 void cpu_use_low_vectors_vbar(void);
 void cpu_set_vbar(uintptr_t addr);
 void cpu_isb(void);
-void cpu_set_mode_irq(void);
-void cpu_set_mode_svc(void);
 void irq_controller_reset(void);
 void irq_controller_enable(uint32_t irq);
 

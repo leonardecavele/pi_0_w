@@ -15,17 +15,17 @@ void handle_irq(void)
 		gpio_event_clear(23u);
 		g_int23_button = true;
 	}
-	else if (gpio_event_pending(24u))
+	if (gpio_event_pending(24u))
 	{
 		gpio_event_clear(24u);
 		g_int24_button = true;
 	}
-	else if (gpio_event_pending(25u))
+	if (gpio_event_pending(25u))
 	{
 		gpio_event_clear(25u);
 		g_int25_button = true;
 	}
-	else if (gpio_event_pending(26u))
+	if (gpio_event_pending(26u))
 	{
 		gpio_event_clear(26u);
 		g_int26_button = true;
@@ -40,13 +40,6 @@ int kmain(uintptr_t dtb)
 	   gpio (led, button (signals))
 	   screen
 	*/
-
-	/* set-up leds GPIO */
-	gpio_set_func(17u, GPIO_OUTPUT);
-	gpio_set_func(27u, GPIO_OUTPUT);
-	gpio_set_func(22u, GPIO_OUTPUT);
-	/* set-up buzzer GPIO */
-	gpio_set_func(16u, GPIO_OUTPUT);
 
 	/* set-up UART0 GPIO */
 	gpio_set_func(14u, GPIO_ALT0);
@@ -91,33 +84,23 @@ int kmain(uintptr_t dtb)
 	irq_controller_enable(IRQ_GPIO_BANK0);
 	irq_enable();
 
-	bool led_state = false;
-	bool buzzer_state = false;
 	/* cpu hang */
 	while (1) {
 		if (g_int23_button)
 		{
 			g_int23_button = false;
-			led_state = !led_state;
-			gpio_write(17u, led_state);
 		}
-		else if (g_int24_button)
+		if (g_int24_button)
 		{
 			g_int24_button = false;
-			led_state = !led_state;
-			gpio_write(27u, led_state);
 		}
-		else if (g_int25_button)
+		if (g_int25_button)
 		{
 			g_int25_button = false;
-			led_state = !led_state;
-			gpio_write(22u, led_state);
 		}
-		else if (g_int26_button)
+		if (g_int26_button)
 		{
 			g_int26_button = false;
-			buzzer_state = !buzzer_state;
-			gpio_write(16u, buzzer_state);
 		}
 		sleep();
 	}

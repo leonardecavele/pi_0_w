@@ -4,7 +4,7 @@
 #include "irq.h"
 #include "time.h"
 
-#define TARGET_FPS 60u
+#define TARGET_FPS 1u
 #define FRAME_US (1000000u / TARGET_FPS)
 
 static volatile bool g_int23_button = false;
@@ -98,6 +98,14 @@ int kmain(uintptr_t dtb)
 		}
 
 		uint32_t elapsed_us = (get_time_us() - start_us) + excess;
+
+
+		uart_printf(
+			BCM2835_UART0,
+			"now=%u us | frame=%u us | excess=%u\r\n",
+			get_time_us(), elapsed_us, excess
+		);
+
 		if (elapsed_us < FRAME_US) {
 			usleep(FRAME_US - elapsed_us);
 			excess = 0u;

@@ -2,7 +2,7 @@
 #include "address.h"
 #include "time.h"
 
-uint32_t	get_time_us(void)
+uint64_t	get_time_us(void)
 {
 	uint32_t	hi;
 	uint32_t	lo;
@@ -16,7 +16,7 @@ uint32_t	get_time_us(void)
 		hi = hi_check;
 		lo = REG4B(ST_REG(ST_CLO));
 	}
-	return (((uint32_t)hi << 32) | (uint32_t)lo);
+	return (((uint64_t)hi << 32) | (uint64_t)lo);
 }
 
 uint32_t	get_time_ms(void)

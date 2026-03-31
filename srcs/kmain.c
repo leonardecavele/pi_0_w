@@ -45,6 +45,8 @@ int kmain(uintptr_t dtb)
 	gpio_set_func(17u, GPIO_OUTPUT);
 	gpio_set_func(27u, GPIO_OUTPUT);
 	gpio_set_func(22u, GPIO_OUTPUT);
+	/* set-up buzzer GPIO */
+	gpio_set_func(16u, GPIO_OUTPUT);
 
 	/* set-up UART0 GPIO */
 	gpio_set_func(14u, GPIO_ALT0);
@@ -55,7 +57,7 @@ int kmain(uintptr_t dtb)
 	uart_init(BCM2835_UART0, UART_CLK, UART_BAUD);
 	/* UART test */
 	uart_printf(BCM2835_UART0, "hello world\r\n");
-	//wait_cmd(BCM2835_UART0);
+	wait_cmd(BCM2835_UART0);
 
 	/* set-up button GPIO 23 */
 	gpio_set_func(23u, GPIO_INPUT);
@@ -90,6 +92,7 @@ int kmain(uintptr_t dtb)
 	irq_enable();
 
 	bool led_state = false;
+	bool buzzer_state = false;
 	/* cpu hang */
 	while (1) {
 		if (g_int23_button)
@@ -113,10 +116,8 @@ int kmain(uintptr_t dtb)
 		else if (g_int26_button)
 		{
 			g_int26_button = false;
-			led_state = !led_state;
-			gpio_write(17u, led_state);
-			gpio_write(27u, led_state);
-			gpio_write(22u, led_state);
+			buzzer_state = !buzzer_state;
+			gpio_write(16u, buzzer_state);
 		}
 		sleep();
 	}

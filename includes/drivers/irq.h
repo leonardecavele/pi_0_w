@@ -25,15 +25,15 @@ typedef enum e_irq_reg
 } t_irq_reg;
 
 /* low-level asm */
-void irq_disable(void);
-void irq_enable(void);
-void irq_vector_init(void);
-void irq_controller_reset(void);
-void irq_controller_enable(uint32_t irq);
-void irq_controller_disable(uint32_t irq);
-uint32_t irq_controller_pending_1(void);
-uint32_t irq_controller_pending_2(void);
-uint32_t irq_controller_basic_pending(void);
+void disable_irq(void);
+void enable_irq(void);
+void vector_init_irq(void);
+void controller_reset_irq(void);
+void controller_enable_irq(uint32_t irq);
+void controller_disable_irq(uint32_t irq);
+uint32_t controller_pending_1_irq(void);
+uint32_t controller_pending_2_irq(void);
+uint32_t controller_basic_pending_irq(void);
 
 /* C driver */
 void irq_init(void);

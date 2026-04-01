@@ -1,25 +1,25 @@
 .section .text
 
-.global irq_disable
-.global irq_enable
+.global disable_irq
+.global enable_irq
 
 .global cpu_use_low_vectors_vbar
 .global cpu_set_vbar
 .global cpu_isb
-.global irq_vector_init
+.global vector_init_irq
 
-.global irq_controller_reset
-.global irq_controller_enable
-.global irq_controller_disable
-.global irq_controller_pending_1
-.global irq_controller_pending_2
-.global irq_controller_basic_pending
+.global controller_reset_irq
+.global controller_enable_irq
+.global controller_disable_irq
+.global controller_pending_1_irq
+.global controller_pending_2_irq
+.global controller_basic_pending_irq
 
-irq_disable:
+disable_irq:
 	cpsid if
 	bx lr
 
-irq_enable:
+enable_irq:
 	mrs r0, cpsr
 	bic r0, r0, #0x80
 	msr cpsr_c, r0
@@ -40,14 +40,14 @@ cpu_isb:
 	mcr p15, 0, r0, c7, c5, 4
 	bx lr
 
-irq_vector_init:
+vector_init_irq:
 	bl cpu_use_low_vectors_vbar
 	ldr r0, =__exception_vectors
 	bl cpu_set_vbar
 	bl cpu_isb
 	bx lr
 
-irq_controller_reset:
+controller_reset_irq:
 	ldr r0, =0x2000b21c
 	ldr r1, =0xffffffff
 	str r1, [r0]
@@ -64,28 +64,28 @@ irq_controller_reset:
 
 	bx lr
 
-irq_controller_enable:
+controller_enable_irq:
 	/* r0 = irq number */
 
 	cmp r0, #32
-	blt irq_enable_1
+	blt enable_1_irq
 
 	cmp r0, #64
-	blt irq_enable_2
+	blt enable_2_irq
 
 	cmp r0, #72
-	bhs irq_ctrl_ret
+	bhs ctrl_ret_irq
 
-	b irq_enable_basic
+	b enable_basic_irq
 
-irq_enable_1:
+enable_1_irq:
 	ldr r1, =0x2000b210
 	mov r2, #1
 	lsl r2, r2, r0
 	str r2, [r1]
 	bx lr
 
-irq_enable_2:
+enable_2_irq:
 	sub r0, r0, #32
 	ldr r1, =0x2000b214
 	mov r2, #1
@@ -93,7 +93,7 @@ irq_enable_2:
 	str r2, [r1]
 	bx lr
 
-irq_enable_basic:
+enable_basic_irq:
 	sub r0, r0, #64
 	ldr r1, =0x2000b218
 	mov r2, #1
@@ -101,28 +101,28 @@ irq_enable_basic:
 	str r2, [r1]
 	bx lr
 
-irq_controller_disable:
+controller_disable_irq:
 	/* r0 = irq number */
 
 	cmp r0, #32
-	blt irq_disable_1
+	blt disable_1_irq
 
 	cmp r0, #64
-	blt irq_disable_2
+	blt disable_2_irq
 
 	cmp r0, #72
-	bhs irq_ctrl_ret
+	bhs ctrl_ret_irq
 
-	b irq_disable_basic
+	b disable_basic_irq
 
-irq_disable_1:
+disable_1_irq:
 	ldr r1, =0x2000b21c
 	mov r2, #1
 	lsl r2, r2, r0
 	str r2, [r1]
 	bx lr
 
-irq_disable_2:
+disable_2_irq:
 	sub r0, r0, #32
 	ldr r1, =0x2000b220
 	mov r2, #1
@@ -130,7 +130,7 @@ irq_disable_2:
 	str r2, [r1]
 	bx lr
 
-irq_disable_basic:
+disable_basic_irq:
 	sub r0, r0, #64
 	ldr r1, =0x2000b224
 	mov r2, #1
@@ -138,20 +138,20 @@ irq_disable_basic:
 	str r2, [r1]
 	bx lr
 
-irq_controller_pending_1:
+controller_pending_1_irq:
 	ldr r0, =0x2000b204
 	ldr r0, [r0]
 	bx lr
 
-irq_controller_pending_2:
+controller_pending_2_irq:
 	ldr r0, =0x2000b208
 	ldr r0, [r0]
 	bx lr
 
-irq_controller_basic_pending:
+controller_basic_pending_irq:
 	ldr r0, =0x2000b200
 	ldr r0, [r0]
 	bx lr
 
-irq_ctrl_ret:
+ctrl_ret_irq:
 	bx lr

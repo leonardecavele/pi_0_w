@@ -3,7 +3,7 @@
 static t_irq_handler g_irq_handlers[IRQ_COUNT];
 static void *g_irq_ctx[IRQ_COUNT];
 
-static void irq_dispatch_bits(
+static void dispatch_bits_irq(
 	uint32_t base_irq, uint32_t pending, uint32_t bit_count
 )
 {
@@ -16,11 +16,11 @@ static void irq_dispatch_bits(
 		}
 }
 
-extern void irq_init(void)
+extern void init_irq(void)
 {
-	irq_global_disable();
-	irq_vector_init();
-	irq_controller_reset();
+	global_disable_irq();
+	vector_init_irq();
+	controller_reset_irq();
 	uint32_t i = -1;
 	while (++i < IRQ_COUNT) {
 		g_irq_handlers[i] = 0;
@@ -28,7 +28,7 @@ extern void irq_init(void)
 	}
 }
 
-extern int irq_register(uint32_t irq, t_irq_handler fn, static void *ctx)
+extern int register_irq(uint32_t irq, t_irq_handler fn, static void *ctx)
 {
 	if (irq >= IRQ_COUNT || fn == 0)
 		return -1;
@@ -37,7 +37,7 @@ extern int irq_register(uint32_t irq, t_irq_handler fn, static void *ctx)
 	return 0;
 }
 
-extern void irq_unregister(uint32_t irq)
+extern void unregister_irq(uint32_t irq)
 {
 	if (irq >= IRQ_COUNT)
 		return;
@@ -45,27 +45,27 @@ extern void irq_unregister(uint32_t irq)
 	g_irq_ctx[irq] = 0;
 }
 
-extern void irq_enable_line(uint32_t irq)
+extern void enable_line_irq(uint32_t irq)
 {
 	if (irq >= IRQ_COUNT)
 		return;
-	irq_controller_enable(irq);
+	controller_enable_irq(irq);
 }
 
-extern void irq_disable_line(uint32_t irq)
+extern void disable_line_irq(uint32_t irq)
 {
 	if (irq >= IRQ_COUNT)
 		return;
-	irq_controller_disable(irq);
+	controller_disable_irq(irq);
 }
 
 extern void handle_irq(void)
 {
-	uint32_t pending1 = irq_controller_pending_1();
-	uint32_t pending2 = irq_controller_pending_2();
-	uint32_t basic = irq_controller_basic_pending();
+	uint32_t pending1 = controller_pending_1_irq();
+	uint32_t pending2 = controller_pending_2_irq();
+	uint32_t basic = controller_basic_pending_irq();
 
-	irq_dispatch_bits(0u, pending1, 32u);
-	irq_dispatch_bits(32u, pending2, 32u);
-	irq_dispatch_bits(64u, basic, 8u);
+	dispatch_bits_irq(0u, pending1, 32u);
+	dispatch_bits_irq(32u, pending2, 32u);
+	dispatch_bits_irq(64u, basic, 8u);
 }

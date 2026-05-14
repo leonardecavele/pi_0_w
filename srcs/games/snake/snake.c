@@ -142,6 +142,9 @@ extern void snake(t_display *display)
 		}
 	};
 
+	/* put stuff in views of app ... */
+	/* wraps time */
+
 	uint32_t last_frame_us = get_time_us();
 	while (1) {
 		uint32_t current_frame_us = get_time_us();

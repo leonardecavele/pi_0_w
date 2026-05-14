@@ -40,13 +40,25 @@ int kmain(void)
 		.height = 128u,
 		.driver = ((void *)&st7735),
 		.fn = ((void *)&st7735_fn),
-		.fb = (uint16_t[160u * 128u]){0}
+		.fb = (uint16_t[MAX_VIEWS][160u * 128u]){0}
 	};
 	display_init(&display);
 	uart_printf(BCM2835_UART0, "DISPLAY set up\r\n");
 
-	uart_printf(BCM2835_UART0, "starting SNAKE\r\n");
-	snake(&display);
-	uart_printf(BCM2835_UART0, "finished SNAKE\r\n");
+	uart_printf(BCM2835_UART0, "starting CORE\r\n");
+	t_core core = { current_app = /* ? */ };
+	while (1) {
+		uint32_t current_frame_us = get_time_us();
+		uint32_t elapsed_us = current_frame_us - last_frame_us;
+		last_frame_us = current_frame_us;
+
+		core.current_app->update(elapsed_us);
+		core.current_app->draw(elapsed_us, &display);
+
+		uint32_t frame_time = get_time_us() - current_frame_us;
+		if (frame_time < FRAME_US)
+			usleep(FRAME_US - frame_time);
+	}
+	uart_printf(BCM2835_UART0, "ended CORE\r\n");
 	return (0);
 }

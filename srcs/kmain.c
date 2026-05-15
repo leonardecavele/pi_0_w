@@ -48,7 +48,7 @@ int kmain(void)
 	uart_printf(BCM2835_UART0, "DISPLAY set up\r\n");
 
 	uart_printf(BCM2835_UART0, "setting up APPS\r\n");
-	t_core core = (t_core) { .display = &display };
+	t_core core = (t_core) {.display = &display};
 	snake_init(&core);
 	uart_printf(BCM2835_UART0, "APPS set up\r\n");
 

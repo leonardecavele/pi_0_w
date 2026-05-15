@@ -1,5 +1,4 @@
 #include "app/snake/snake.h"
-#include "app/snake/views/game.h"
 #include "display/draw.h"
 
 static void draw_cell(
@@ -34,30 +33,36 @@ static void draw_game_background(
 }
 
 static void draw_fruit(
-	t_display *display, t_snake_draw *snake_draw, t_snake_state state
+	t_display *display, t_snake_draw *snake_draw,
+	t_snake_game_state game_state
 )
 {
-	if (state.fruit.active)
+	if (game_state.fruit.active)
 		draw_cell(
 			display,
 			snake_draw,
-			state.fruit.pos.v1,
-			state.fruit.pos.v2,
+			game_state.fruit.pos.v1,
+			game_state.fruit.pos.v2,
 			(uint16_t)SNAKE_FRUIT_COLOR
 		);
 }
 
 static void draw_snake_body(
-	t_display *display, t_snake_draw *snake_draw, t_snake_state state
+	t_display *display, t_snake_draw *snake_draw,
+	t_snake_game_state game_state
 )
 {
-	for (uint16_t i = 0; i < state.length; i++)
+	for (uint16_t i = 0; i < game_state.length; i++)
 	{
 		draw_cell(
 			display,
 			snake_draw,
-			state.body[(state.head - i + SNAKE_MAX_LEN) % SNAKE_MAX_LEN].v1,
-			state.body[(state.head - i + SNAKE_MAX_LEN) % SNAKE_MAX_LEN].v2,
+			game_state.body[
+				(game_state.head - i + SNAKE_MAX_LEN) % SNAKE_MAX_LEN
+			].v1,
+			game_state.body[
+				(game_state.head - i + SNAKE_MAX_LEN) % SNAKE_MAX_LEN
+			].v2,
 			(uint16_t)SNAKE_BODY_COLOR
 		);
 	}
@@ -68,11 +73,11 @@ extern void snake_game_draw(void *app_data)
 	t_snake_app *snake_app = app_data;
 	t_display *display = snake_app->core->display;
 	t_snake_draw *snake_draw = &snake_app->draw;
-	t_snake_state state = snake_app->state;
+	t_snake_game_state game_state = snake_app->game_state;
 
 	draw_clear(display, SNAKE_BACKGROUND);
 	draw_game_background(display, snake_draw);
-	draw_snake_body(display, snake_draw, state);
-	draw_fruit(display, snake_draw, state);
+	draw_snake_body(display, snake_draw, game_state);
+	draw_fruit(display, snake_draw, game_state);
 	display_flush_fb(display);
 }

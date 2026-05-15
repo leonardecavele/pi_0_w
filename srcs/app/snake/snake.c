@@ -19,15 +19,15 @@ extern void snake_init(t_core *core)
 		.game_width = GRID_WIDTH * cell_size,
 		.game_height = GRID_HEIGHT * cell_size
 	};
-	snake_app.state = (t_snake_state){
+	snake_app.game_state = (t_snake_game_state){
 		.alive = true,
 		.length = 1,
-		.head = 0,
 		.next_direction = {1, 0},
 		.last_direction = {1, 0},
-		.body = {
-			[0] = {GRID_WIDTH / 2, GRID_HEIGHT / 2}
-		}
+		.body = {[0] = {GRID_WIDTH / 2, GRID_HEIGHT / 2}}
+	};
+	snake_app.menu_state = (t_snake_menu_state){
+		.start = false
 	};
 	core->apps[SNAKE_APP] = (t_app){
 		.views = {

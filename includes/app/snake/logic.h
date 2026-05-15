@@ -21,7 +21,7 @@ typedef struct s_fruit
 	bool	active;
 }	t_fruit;
 
-typedef struct s_snake_state
+typedef struct s_snake_game_state
 {
 	t_vec2		body[SNAKE_MAX_LEN];
 	t_vec2		next_direction;
@@ -30,6 +30,11 @@ typedef struct s_snake_state
 	uint16_t	length;
 	t_fruit		fruit;
 	bool		alive;
-}	t_snake_state;
+}	t_snake_game_state;
+
+typedef struct s_snake_menu_state
+{
+	bool	start;
+}	t_snake_menu_state;
 
 #endif

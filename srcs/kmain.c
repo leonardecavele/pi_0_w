@@ -45,7 +45,8 @@ int kmain(void)
 	display_init(&display);
 	uart_printf(BCM2835_UART0, "DISPLAY set up\r\n");
 
-	t_core core;
+	t_core core = (t_core) { .display = &display };
+	snake_init(&core);
 	uart_printf(BCM2835_UART0, "starting CORE\r\n");
 	uint32_t last_frame_us = get_time_us();
 	while (1)

@@ -28,7 +28,7 @@ extern void	snake_init(t_core *core)
 		}
 	};
 	core->views[0] = (t_view){
-		.draw = draw_snake,
+		.draw = snake_draw,
 		.update = snake_update,
 		.app_data = &snake_app
 	};

@@ -112,7 +112,7 @@ static void	update_collision(t_snake_state *state)
 	}
 }
 
-extern void	snake_update(void *app_data)
+extern void	snake_game_update(void *app_data)
 {
 	t_snake_app	*snake_app = app_data;
 

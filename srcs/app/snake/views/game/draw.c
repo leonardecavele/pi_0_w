@@ -63,7 +63,7 @@ static void	draw_snake_body(
 	}
 }
 
-extern void	draw_snake(void *app_data)
+extern void	snake_game_draw(void *app_data)
 {
 	t_snake_app *snake_app = app_data;
 	t_display *display = snake_app->core->display;

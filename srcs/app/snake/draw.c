@@ -1,16 +1,15 @@
 #include "display/display.h"
 #include "display/draw.h"
 #include "app/snake/logic.h"
-#include "app/snake/display.h"
+#include "app/snake/draw.h"
 
-static void draw_cell(
+static void	draw_cell(
 	t_display *display, t_snake_display *snake_display,
 	uint16_t grid_x, uint16_t grid_y, uint16_t color
 )
 {
 	if (grid_x >= GRID_WIDTH || grid_y >= GRID_HEIGHT)
 		return ;
-
 	draw_fill_rectangle(
 		display,
 		snake_display->offset_x + (grid_x * snake_display->cell_size),
@@ -21,7 +20,7 @@ static void draw_cell(
 	);
 }
 
-static void draw_game_background(
+static void	draw_game_background(
 	t_display *display, t_snake_display *snake_display
 )
 {
@@ -49,11 +48,12 @@ static void	draw_fruit(
 		);
 }
 
-static void draw_snake_body(
+static void	draw_snake_body(
 	t_display *display, t_snake_display *snake_display, t_snake_state state
 )
 {
-	for (uint16_t i = 0; i < state.length; i++) {
+	for (uint16_t i = 0; i < state.length; i++)
+	{
 		draw_cell(
 			display,
 			snake_display,
@@ -64,10 +64,7 @@ static void draw_snake_body(
 	}
 }
 
-/* ADD VIEWS ! */
-
-/* every frame */
-extern void draw_snake(
+extern void	draw_snake(
 	t_display *display, t_snake_display *snake_display, t_snake_state state
 )
 {

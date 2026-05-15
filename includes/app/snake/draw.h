@@ -1,5 +1,5 @@
-#ifndef SNAKE_DISPLAY_H
-#define SNAKE_DISPLAY_H
+#ifndef DRAW_SNAKE_H
+#define DRAW_SNAKE_H
 
 #include "display/display.h"
 #include "app/snake/logic.h"
@@ -21,7 +21,7 @@ typedef struct s_snake_display
 	uint16_t	game_height;
 }	t_snake_display;
 
-void draw_snake(
+void	draw_snake(
 	t_display *display, t_snake_display *snake_display, t_snake_state state
 );
 

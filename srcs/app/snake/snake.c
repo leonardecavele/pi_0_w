@@ -1,6 +1,6 @@
 #include "helpers/math.h"
 #include "app/snake/snake.h"
-#include "app/snake/update.h"
+#include "app/snake/game/update.h"
 
 extern void snake_init(t_core *core)
 {
@@ -11,7 +11,7 @@ extern void snake_init(t_core *core)
 	);
 
 	snake_app.core = core;
-	snake_app.display = (t_snake_display){
+	snake_app.draw = (t_snake_draw){
 		.cell_size = cell_size,
 		.offset_x = (display->width - (GRID_WIDTH * cell_size)) / 2u,
 		.offset_y = (display->height - (GRID_HEIGHT * cell_size)) / 2u,
@@ -22,7 +22,8 @@ extern void snake_init(t_core *core)
 		.alive = true,
 		.length = 1,
 		.head = 0,
-		.direction = {1, 0},
+		.next_direction = {1, 0},
+		.last_direction = {1, 0},
 		.body = {
 			[0] = {GRID_WIDTH / 2, GRID_HEIGHT / 2}
 		}

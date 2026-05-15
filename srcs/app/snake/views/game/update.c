@@ -1,49 +1,47 @@
 #include "drivers/uart.h"
 #include "helpers/random.h"
 #include "app/snake/snake.h"
+#include "app/snake/game/update.h"
 #include "system/buttons.h"
 
+/* issue when pressing quickly two buttons */
 static void update_buttons(t_snake_state *state)
 {
-	if (button_left())
-	{
+	if (button_left()) {
 		uart_printf(BCM2835_UART0, "snake: LEFT\r\n");
-		if (!(state->direction.v1 == 1 && state->direction.v2 == 0))
-			state->direction = (t_vec2){-1, 0};
+		if (!(state->last_direction.v1 == 1 && state->last_direction.v2 == 0))
+			state->next_direction = (t_vec2){-1, 0};
 	}
-	else if (button_up())
-	{
+	else if (button_up()) {
 		uart_printf(BCM2835_UART0, "snake: UP\r\n");
-		if (!(state->direction.v1 == 0 && state->direction.v2 == 1))
-			state->direction = (t_vec2){0, -1};
+		if (!(state->last_direction.v1 == 0 && state->last_direction.v2 == 1))
+			state->next_direction = (t_vec2){0, -1};
 	}
-	else if (button_right())
-	{
+	else if (button_right()) {
 		uart_printf(BCM2835_UART0, "snake: RIGHT\r\n");
-		if (!(state->direction.v1 == -1 && state->direction.v2 == 0))
-			state->direction = (t_vec2){1, 0};
+		if (!(state->last_direction.v1 == -1 && state->last_direction.v2 == 0))
+			state->next_direction = (t_vec2){1, 0};
 	}
-	else if (button_down())
-	{
+	else if (button_down()) {
 		uart_printf(BCM2835_UART0, "snake: DOWN\r\n");
-		if (!(state->direction.v1 == 0 && state->direction.v2 == -1))
-			state->direction = (t_vec2){0, 1};
+		if (!(state->last_direction.v1 == 0 && state->last_direction.v2 == -1))
+			state->next_direction = (t_vec2){0, 1};
 	}
 }
+
 
 static bool update_direction(t_snake_state *state, uint32_t elapsed_us)
 {
 	static uint32_t total_elapsed_us = 0;
-	t_vec2 head_pos;
-	t_vec2 new_pos;
 
 	total_elapsed_us += elapsed_us;
 	if (total_elapsed_us < SNAKE_SPEED_US)
 		return false;
 	total_elapsed_us -= SNAKE_SPEED_US;
-	head_pos = state->body[state->head];
-	new_pos = (t_vec2){
-		head_pos.v1 + state->direction.v1, head_pos.v2 + state->direction.v2
+	t_vec2 head_pos = state->body[state->head];
+	t_vec2 new_pos = (t_vec2){
+		head_pos.v1 + state->next_direction.v1,
+		head_pos.v2 + state->next_direction.v2
 	};
 	if (new_pos.v1 < 0)
 		new_pos.v1 = GRID_WIDTH - 1;
@@ -55,6 +53,7 @@ static bool update_direction(t_snake_state *state, uint32_t elapsed_us)
 		new_pos.v2 = 0;
 	state->head = (state->head + 1) % SNAKE_MAX_LEN;
 	state->body[state->head] = new_pos;
+	state->last_direction = state->next_direction;
 	return true;
 }
 
@@ -88,8 +87,7 @@ static bool on_fruit(t_snake_state *state, t_vec2 pos)
 
 static void update_fruit(t_snake_state *state)
 {
-	while (!state->fruit.active)
-	{
+	while (!state->fruit.active) {
 		state->fruit.pos.v1 = random_u32() % GRID_WIDTH;
 		state->fruit.pos.v2 = random_u32() % GRID_HEIGHT;
 		if (on_snake(state, state->fruit.pos, 0) == -1)
@@ -99,14 +97,13 @@ static void update_fruit(t_snake_state *state)
 
 static void update_collision(t_snake_state *state)
 {
-	if (on_fruit(state, state->body[state->head]))
-	{
+	if (on_fruit(state, state->body[state->head])) {
 		state->fruit.active = false;
 		state->length = (state->length % SNAKE_MAX_LEN) + 1;
 	}
-	if (on_snake(state, state->body[state->head], 1) != -1)
-	{
-		state->direction = (t_vec2){0, 0};
+	if (on_snake(state, state->body[state->head], 1) != -1) {
+		state->next_direction = (t_vec2){0, 0};
+		state->last_direction = (t_vec2){0, 0};
 		state->alive = false;
 		uart_printf(BCM2835_UART0, "snake: DEAD\r\n");
 	}

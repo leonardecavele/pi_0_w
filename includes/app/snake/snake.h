@@ -3,7 +3,8 @@
 
 #include "app/app.h"
 #include "display/display.h"
-#include "app/snake/draw.h"
+#include "app/snake/display.h"
+#include "app/snake/game/draw.h"
 #include "app/snake/logic.h"
 
 typedef enum e_snake_view
@@ -15,7 +16,7 @@ typedef struct s_snake_app
 {
 	t_core *core;
 	t_snake_state state;
-	t_snake_display display;
+	t_snake_draw draw;
 }	t_snake_app;
 
 void snake_init(t_core *core);

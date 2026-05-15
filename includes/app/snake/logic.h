@@ -1,5 +1,7 @@
-#ifndef LOGIC_SNAKE_H
-#define LOGIC_SNAKE_H
+#ifndef SNAKE_LOGIC_H
+#define SNAKE_LOGIC_H
+
+#include "helpers/standard.h"
 
 #define GRID_WIDTH 16
 #define GRID_HEIGHT 16
@@ -22,7 +24,8 @@ typedef struct s_fruit
 typedef struct s_snake_state
 {
 	t_vec2		body[SNAKE_MAX_LEN];
-	t_vec2		direction;
+	t_vec2		next_direction;
+	t_vec2		last_direction;
 	uint16_t	head;
 	uint16_t	length;
 	t_fruit		fruit;

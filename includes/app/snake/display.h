@@ -1,5 +1,5 @@
-#ifndef DRAW_SNAKE_H
-#define DRAW_SNAKE_H
+#ifndef SNAKE_DISPLAY_H
+#define SNAKE_DISPLAY_H
 
 #include "display/display.h"
 #include "app/snake/logic.h"
@@ -12,15 +12,13 @@ typedef enum e_snake_colors
 	SNAKE_FRUIT_COLOR = 0x07E0
 }	t_snake_colors;
 
-typedef struct s_snake_display
+typedef struct s_snake_draw
 {
 	uint16_t cell_size;
 	uint16_t offset_x;
 	uint16_t offset_y;
 	uint16_t game_width;
 	uint16_t game_height;
-}	t_snake_display;
-
-void snake_game_draw(void *app_data);
+}	t_snake_draw;
 
 #endif

@@ -112,8 +112,10 @@ static void	update_collision(t_snake_state *state)
 	}
 }
 
-extern void	snake_step(t_snake_app *snake_app)
+extern void	snake_update(void *app_data)
 {
+	t_snake_app	*snake_app = app_data;
+
 	if (!snake_app->state.alive)
 		return ;
 	update_buttons(&snake_app->state);

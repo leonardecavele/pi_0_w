@@ -2,31 +2,12 @@
 #include "app/snake/snake.h"
 #include "app/snake/update.h"
 
-static void	snake_update(void *app_data)
-{
-	snake_step(app_data);
-}
-
-static void	snake_draw(void *app_data)
-{
-	t_snake_app	*snake_app;
-
-	snake_app = app_data;
-	draw_snake(
-		snake_app->core->display,
-		&snake_app->display,
-		snake_app->state
-	);
-}
-
 extern void	snake_init(t_core *core)
 {
-	static t_snake_app	snake_app;
-	t_display			*display;
-	uint16_t			cell_size;
+	static t_snake_app snake_app;
 
-	display = core->display;
-	cell_size = min(
+	t_display *display = core->display;
+	uint16_t cell_size = min(
 		display->width / GRID_WIDTH, display->height / GRID_HEIGHT
 	);
 	snake_app.core = core;
@@ -47,7 +28,7 @@ extern void	snake_init(t_core *core)
 		}
 	};
 	core->views[0] = (t_view){
-		.draw = snake_draw,
+		.draw = draw_snake,
 		.update = snake_update,
 		.app_data = &snake_app
 	};

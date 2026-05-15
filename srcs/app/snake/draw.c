@@ -1,7 +1,6 @@
-#include "display/display.h"
-#include "display/draw.h"
-#include "app/snake/logic.h"
 #include "app/snake/draw.h"
+#include "display/draw.h"
+#include "app/snake/snake.h"
 
 static void	draw_cell(
 	t_display *display, t_snake_display *snake_display,
@@ -64,10 +63,13 @@ static void	draw_snake_body(
 	}
 }
 
-extern void	draw_snake(
-	t_display *display, t_snake_display *snake_display, t_snake_state state
-)
+extern void	draw_snake(void *app_data)
 {
+	t_snake_app *snake_app = app_data;
+	t_display *display = snake_app->core->display;
+	t_snake_display *snake_display = &snake_app->display;
+	t_snake_state *state = snake_app->state;
+
 	draw_clear(display, SNAKE_BACKGROUND);
 	draw_game_background(display, snake_display);
 	draw_snake_body(display, snake_display, state);

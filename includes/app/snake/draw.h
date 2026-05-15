@@ -21,8 +21,6 @@ typedef struct s_snake_display
 	uint16_t	game_height;
 }	t_snake_display;
 
-void	draw_snake(
-	t_display *display, t_snake_display *snake_display, t_snake_state state
-);
+void	draw_snake(void *app_data);
 
 #endif

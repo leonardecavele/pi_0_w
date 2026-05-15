@@ -2,7 +2,7 @@
 #define SNAKE_DISPLAY_H
 
 #include "display/display.h"
-#include "games/snake/logic.h"
+#include "app/snake/logic.h"
 
 typedef enum e_snake_colors
 {

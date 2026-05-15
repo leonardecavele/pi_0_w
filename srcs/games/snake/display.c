@@ -1,7 +1,7 @@
 #include "display/display.h"
 #include "display/draw.h"
-#include "games/snake/logic.h"
-#include "games/snake/display.h"
+#include "app/snake/logic.h"
+#include "app/snake/display.h"
 
 static void draw_cell(
 	t_display *display, t_snake_display *snake_display,
@@ -63,6 +63,8 @@ static void draw_snake_body(
 		);
 	}
 }
+
+/* ADD VIEWS ! */
 
 /* every frame */
 extern void draw_snake(

@@ -4,7 +4,6 @@
 #define LEN_VIEW 10
 
 /* app_data may vary with different programs */
-
 typedef struct s_view {
 	void (*display)(void *app_data);
 	void (*update)(void *app_data);

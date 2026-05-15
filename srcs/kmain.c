@@ -2,9 +2,10 @@
 #include "drivers/irq.h"
 #include "drivers/spi.h"
 #include "drivers/st7735.h"
+#include "helpers/time.h"
 #include "system/mapping.h"
 #include "system/buttons.h"
-#include "games/snake/snake.h"
+#include "app/snake/snake.h"
 #include "display/display.h"
 
 int kmain(void)
@@ -45,8 +46,11 @@ int kmain(void)
 	display_init(&display);
 	uart_printf(BCM2835_UART0, "DISPLAY set up\r\n");
 
+	uart_printf(BCM2835_UART0, "setting up APPS\r\n");
 	t_core core = (t_core) { .display = &display };
 	snake_init(&core);
+	uart_printf(BCM2835_UART0, "APPS set up\r\n");
+
 	uart_printf(BCM2835_UART0, "starting CORE\r\n");
 	uint32_t last_frame_us = get_time_us();
 	while (1)
@@ -54,10 +58,9 @@ int kmain(void)
 		uint32_t current_frame_us = get_time_us();
 		core.dt = current_frame_us - last_frame_us;
 		last_frame_us = current_frame_us;
-		if (core.current_view != 0)
-		{
-			core.current_view->update(core.current_view->app_data);
-			core.current_view->draw(core.current_view->app_data);
+		if (core.current_app != 0 && core.current_app->current_view != 0) {
+			core.current_app->current_view->update(core.current_app->app_data);
+			core.current_app->current_view->draw(core.current_app->app_data);
 		}
 		uint32_t frame_time = get_time_us() - current_frame_us;
 		if (frame_time < FRAME_US)

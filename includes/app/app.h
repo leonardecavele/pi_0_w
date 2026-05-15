@@ -6,6 +6,11 @@
 #define LEN_APP 100
 #define LEN_VIEW 10
 
+typedef enum e_app_index
+{
+	APP_SNAKE = 0
+} t_app_index;
+
 typedef struct s_view
 {
 	void (*draw)(void *app_data);
@@ -14,6 +19,7 @@ typedef struct s_view
 
 typedef struct s_app
 {
+	t_view *current_view;
 	t_view views[LEN_VIEW];
 	void *app_data;
 } t_app;

@@ -2,7 +2,7 @@
 #include "display/draw.h"
 #include "app/snake/snake.h"
 
-static void	draw_cell(
+static void draw_cell(
 	t_display *display, t_snake_display *snake_display,
 	uint16_t grid_x, uint16_t grid_y, uint16_t color
 )
@@ -19,7 +19,7 @@ static void	draw_cell(
 	);
 }
 
-static void	draw_game_background(
+static void draw_game_background(
 	t_display *display, t_snake_display *snake_display
 )
 {
@@ -33,7 +33,7 @@ static void	draw_game_background(
 	);
 }
 
-static void	draw_fruit(
+static void draw_fruit(
 	t_display *display, t_snake_display *snake_display, t_snake_state state
 )
 {
@@ -47,7 +47,7 @@ static void	draw_fruit(
 		);
 }
 
-static void	draw_snake_body(
+static void draw_snake_body(
 	t_display *display, t_snake_display *snake_display, t_snake_state state
 )
 {
@@ -63,12 +63,12 @@ static void	draw_snake_body(
 	}
 }
 
-extern void	snake_game_draw(void *app_data)
+extern void snake_game_draw(void *app_data)
 {
 	t_snake_app *snake_app = app_data;
 	t_display *display = snake_app->core->display;
 	t_snake_display *snake_display = &snake_app->display;
-	t_snake_state *state = snake_app->state;
+	t_snake_state state = snake_app->state;
 
 	draw_clear(display, SNAKE_BACKGROUND);
 	draw_game_background(display, snake_display);

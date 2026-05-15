@@ -9,6 +9,11 @@
 #define TARGET_FPS 60u
 #define FRAME_US (1000000u / TARGET_FPS)
 
+typedef enum e_snake_view
+{
+	SNAKE_VIEW_GAME = 0
+}	t_snake_view;
+
 typedef struct s_snake_app
 {
 	t_core *core;

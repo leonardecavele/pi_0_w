@@ -31,8 +31,8 @@ C_SRCS = \
 		 system/mapping.c \
 		 system/buttons.c \
 		 app/snake/snake.c \
-		 app/snake/update.c \
-		 app/snake/draw.c \
+		 app/snake/views/game/update.c \
+		 app/snake/views/game/draw.c \
 		 display/display.c \
 		 display/draw.c \
 		 drivers/uart.c \

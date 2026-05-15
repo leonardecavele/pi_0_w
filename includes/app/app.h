@@ -3,6 +3,9 @@
 
 #include "display/display.h"
 
+#define TARGET_FPS 60u
+#define FRAME_US (1000000u / TARGET_FPS)
+
 #define LEN_APP 100
 #define LEN_VIEW 10
 

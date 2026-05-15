@@ -6,9 +6,6 @@
 #include "app/snake/draw.h"
 #include "app/snake/logic.h"
 
-#define TARGET_FPS 60u
-#define FRAME_US (1000000u / TARGET_FPS)
-
 typedef enum e_snake_view
 {
 	SNAKE_GAME_VIEW = 0

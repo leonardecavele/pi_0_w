@@ -5,6 +5,7 @@
 #include "helpers/time.h"
 #include "system/mapping.h"
 #include "system/buttons.h"
+#include "app/app.h"
 #include "app/snake/snake.h"
 #include "display/display.h"
 

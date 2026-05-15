@@ -3,11 +3,11 @@
 
 #include "helpers/standard.h"
 
-#define GRID_WIDTH 16
-#define GRID_HEIGHT 16
+#define GRID_WIDTH 12
+#define GRID_HEIGHT 12
 
 #define SNAKE_MAX_LEN 40
-#define SNAKE_SPEED_US (0.2 * 1000000u)
+#define SNAKE_SPEED_US (0.19 * 1000000u)
 
 typedef struct s_vec2
 {

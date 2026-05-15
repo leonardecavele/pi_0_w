@@ -12,9 +12,13 @@ static bool update_buttons(t_snake_menu_state *menu_state)
 	return false;
 }
 
-extern void snake_menu_update(void *app_data)
+extern void	snake_menu_update(void *app_data)
 {
-	t_snake_app *snake_app = app_data;
+	t_snake_app	*snake_app = app_data;
+	t_app *app = snake_app->core->current_app;
 
-	if update_buttons(&snake_app->menu_state);
+	if (update_buttons(&snake_app->menu_state)) {
+		uart_printf(BCM2835_UART0, "snake: changing view\r\n");
+		app->current_view = &app->views[SNAKE_GAME_VIEW];
+	}
 }

@@ -34,7 +34,7 @@ typedef struct s_snake_game_state
 
 typedef struct s_snake_menu_state
 {
-	bool	start;
+	bool	placeholder;
 }	t_snake_menu_state;
 
 #endif

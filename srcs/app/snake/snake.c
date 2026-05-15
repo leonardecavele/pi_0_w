@@ -27,7 +27,7 @@ extern void snake_init(t_core *core)
 		.body = {[0] = {GRID_WIDTH / 2, GRID_HEIGHT / 2}}
 	};
 	snake_app.menu_state = (t_snake_menu_state){
-		.start = false
+		.placeholder = false
 	};
 	core->apps[SNAKE_APP] = (t_app){
 		.views = {
@@ -41,6 +41,6 @@ extern void snake_init(t_core *core)
 		.app_data = &snake_app
 	};
 	core->apps[SNAKE_APP].current_view
-		= &core->apps[SNAKE_APP].views[SNAKE_GAME_VIEW];
+		= &core->apps[SNAKE_APP].views[SNAKE_MENU_VIEW];
 	core->current_app = &core->apps[SNAKE_APP];
 }

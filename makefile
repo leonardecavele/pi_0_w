@@ -28,25 +28,20 @@ S_SRCS = \
 
 C_SRCS = \
 		 kmain.c \
-		 # system
 		 system/mapping.c \
 		 system/buttons.c \
-		 # snake
 		 app/snake/snake.c \
 		 app/snake/views/game/update.c \
 		 app/snake/views/game/draw.c \
 		 app/snake/views/menu/update.c \
 		 app/snake/views/menu/draw.c \
-		 # display
 		 display/display.c \
 		 display/draw.c \
-		 # drivers
 		 drivers/uart.c \
 		 drivers/gpio.c \
 		 drivers/spi.c \
 		 drivers/irq.c \
 		 drivers/st7735.c \
-		 # helpers
 		 helpers/standard.c \
 		 helpers/time.c \
 		 helpers/math.c \

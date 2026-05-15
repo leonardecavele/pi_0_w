@@ -11,7 +11,7 @@ static void draw_menu_background(
 		snake_draw->offset_y,
 		GRID_WIDTH * snake_draw->cell_size,
 		GRID_HEIGHT * snake_draw->cell_size,
-		SNAKE_GAME_BACKGROUND
+		SNAKE_MENU_BACKGROUND
 	);
 }
 extern void snake_menu_draw(void *app_data)

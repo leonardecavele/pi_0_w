@@ -100,21 +100,27 @@ static void update_fruit(t_snake_game_state *game_state)
 	}
 }
 
-static void update_collision(t_snake_game_state *game_state)
+static void update_collision(t_app *app, t_snake_game_state *game_state)
 {
 	if (on_fruit(game_state, game_state->body[game_state->head])) {
 		game_state->fruit.active = false;
 		game_state->length = (game_state->length % SNAKE_MAX_LEN) + 1;
 	}
 	if (on_snake(
-		game_state,
-		game_state->body[game_state->head],
-		1
+		game_state, game_state->body[game_state->head], 1
 	) != -1) {
-		game_state->next_direction = (t_vec2){0, 0};
-		game_state->last_direction = (t_vec2){0, 0};
-		game_state->alive = false;
+		//game_state->next_direction = (t_vec2){0, 0};
+		//game_state->last_direction = (t_vec2){0, 0};
+		//game_state->alive = false;
 		uart_printf(BCM2835_UART0, "snake: DEAD\r\n");
+		app->current_view = &app->views[SNAKE_MENU_VIEW];
+		*game_state = (t_snake_game_state){
+			.alive = true,
+			.length = 1,
+			.next_direction = {1, 0},
+			.last_direction = {1, 0},
+			.body = {[0] = {GRID_WIDTH / 2, GRID_HEIGHT / 2}}
+		};
 	}
 }
 
@@ -126,6 +132,6 @@ extern void snake_game_update(void *app_data)
 		return ;
 	update_buttons(&snake_app->game_state);
 	if (update_direction(&snake_app->game_state, snake_app->core->dt))
-		update_collision(&snake_app->game_state);
+		update_collision(snake_app->core->current_app, &snake_app->game_state);
 	update_fruit(&snake_app->game_state);
 }

@@ -1,6 +1,7 @@
 #include "helpers/math.h"
 #include "app/snake/snake.h"
-#include "app/snake/game/update.h"
+#include "app/snake/views/game.h"
+#include "app/snake/views/menu.h"
 
 extern void snake_init(t_core *core)
 {
@@ -30,9 +31,11 @@ extern void snake_init(t_core *core)
 	};
 	core->apps[SNAKE_APP] = (t_app){
 		.views = {
+			[SNAKE_MENU_VIEW] = {
+				.draw = snake_menu_draw, .update = snake_menu_update
+			},
 			[SNAKE_GAME_VIEW] = {
-				.draw = snake_game_draw,
-				.update = snake_game_update
+				.draw = snake_game_draw, .update = snake_game_update
 			}
 		},
 		.app_data = &snake_app

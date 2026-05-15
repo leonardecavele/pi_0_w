@@ -4,12 +4,12 @@
 #include "app/app.h"
 #include "display/display.h"
 #include "app/snake/display.h"
-#include "app/snake/game/draw.h"
 #include "app/snake/logic.h"
 
 typedef enum e_snake_view
 {
-	SNAKE_GAME_VIEW = 0
+	SNAKE_MENU_VIEW = 0,
+	SNAKE_GAME_VIEW = 1
 }	t_snake_view;
 
 typedef struct s_snake_app

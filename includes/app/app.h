@@ -19,16 +19,16 @@ typedef struct s_view
 
 typedef struct s_app
 {
+	void *app_data;
 	t_view *current_view;
 	t_view views[LEN_VIEW];
-	void *app_data;
 } t_app;
 
 typedef struct s_core
 {
-	uint32_t dt;
 	t_display *display;
 	t_app *current_app;
+	uint32_t dt;
 	t_app apps[LEN_APP];
 } t_core;
 

@@ -17,8 +17,8 @@ typedef enum e_snake_view
 typedef struct s_snake_app
 {
 	t_core *core;
-	t_snake_display display;
 	t_snake_state state;
+	t_snake_display display;
 }	t_snake_app;
 
 void snake_init(t_core *core);

@@ -22,11 +22,11 @@ typedef struct s_fruit
 typedef struct s_snake_state
 {
 	t_vec2		body[SNAKE_MAX_LEN];
-	t_fruit		fruit;
+	t_vec2		direction;
 	uint16_t	head;
 	uint16_t	length;
+	t_fruit		fruit;
 	bool		alive;
-	t_vec2		direction;
 }	t_snake_state;
 
 #endif

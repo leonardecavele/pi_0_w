@@ -27,16 +27,16 @@ extern void snake_init(t_core *core)
 			[0] = {GRID_WIDTH / 2, GRID_HEIGHT / 2}
 		}
 	};
-	core->apps[APP_SNAKE] = (t_app){
+	core->apps[SNAKE_APP] = (t_app){
 		.views = {
-			[SNAKE_VIEW_GAME] = {
+			[SNAKE_GAME_VIEW] = {
 				.draw = snake_game_draw,
 				.update = snake_game_update
 			}
 		},
 		.app_data = &snake_app
 	};
-	core->apps[APP_SNAKE].current_view
-		= &core->apps[APP_SNAKE].views[SNAKE_VIEW_GAME];
-	core->current_app = &core->apps[APP_SNAKE];
+	core->apps[SNAKE_APP].current_view
+		= &core->apps[SNAKE_APP].views[SNAKE_GAME_VIEW];
+	core->current_app = &core->apps[SNAKE_APP];
 }

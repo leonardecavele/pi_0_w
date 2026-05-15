@@ -8,7 +8,7 @@
 
 typedef enum e_app_index
 {
-	APP_SNAKE = 0
+	SNAKE_APP = 0
 } t_app_index;
 
 typedef struct s_view

@@ -11,7 +11,7 @@
 
 typedef enum e_snake_view
 {
-	SNAKE_VIEW_GAME = 0
+	SNAKE_GAME_VIEW = 0
 }	t_snake_view;
 
 typedef struct s_snake_app
